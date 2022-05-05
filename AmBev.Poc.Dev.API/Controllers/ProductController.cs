@@ -1,14 +1,17 @@
 ﻿using Ambev.Poc.Dev.Domain.Interfaces.Services;
+using Ambev.Poc.Dev.Domain.Models.Product.Request;
+using Ambev.Poc.Dev.Domain.Models.Product.Response;
+using Ambev.Poc.Dev.Domain.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmBev.Poc.Dev.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class ProductController : ControllerBase
+    [Route("api/[controller]")]
+    //[Authorize]
+    public class ProductController : ApiControlleBase
     {
         private readonly IProductService _productService;
 
@@ -17,37 +20,19 @@ namespace AmBev.Poc.Dev.API.Controllers
             _productService = productService;
         }
 
-
-        // GET: api/<Teste>
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        public async Task<ActionResult<ResponseBaseModel<ProductResponseModel>>> Get() => GetResponse(await _productService.GetAllProduct());
 
-        // GET api/<Teste>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<ResponseBaseModel<bool>>> GetById(int productId) => GetResponse(await _productService.GetProductId(productId));
 
-        // POST api/<Teste>
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public async Task<ActionResult<ResponseBaseModel<bool>>> Post([FromBody] ProductRequestModel productModel) => GetResponse(await _productService.CreateProduct(productModel));
 
-        // PUT api/<Teste>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        [HttpPut("")]
+        public async Task<ActionResult<ResponseBaseModel<ProductResponseModel>>> Updated([FromBody] ProductRequestModel productModel) => GetResponse(await _productService.UpdateProduct(productModel));
 
-        // DELETE api/<Teste>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        [HttpDelete("{productId}")]
+        public async Task<ActionResult<ResponseBaseModel<bool>>> Delete(int productId) => GetResponse(await _productService.DeleteProduct(productId));
     }
 }

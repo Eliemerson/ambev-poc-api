@@ -34,7 +34,7 @@ namespace AmBev.Poc.Dev.API.Ioc
         private static void AddRepositories()
         {
             _services.AddScoped<IOrderRepository, OrderRepository>();
-            _services.AddScoped<IUserRepository, UserRepository>();
+            _services.AddScoped<ICustomerRepository, CustomerRepository>();
             _services.AddScoped<IProductRepository, ProductRepository>();
         }
 
@@ -42,7 +42,7 @@ namespace AmBev.Poc.Dev.API.Ioc
         {
             _services.AddScoped<IOrderService, OrderService>();
             _services.AddScoped<IProductService, ProductService>();
-            _services.AddScoped<IUserService, UserService>();
+            _services.AddScoped<ICustomerService, CustomerService>();
         }
     }
 }
