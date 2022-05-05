@@ -38,7 +38,7 @@ namespace Ambev.Poc.Dev.Domain.Services.Product
         }
 
 
-        public async Task<bool> CreateProduct(ProductRequestModel productModel)
+        public async Task<int> CreateProduct(ProductRequestModel productModel)
         {
             var anySky = await _productRepository.GetProductBySku(productModel.Sku);
 

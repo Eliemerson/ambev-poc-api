@@ -1,5 +1,4 @@
-﻿using Ambev.Poc.Dev.Domain.Models.Customer;
-using Ambev.Poc.Dev.Domain.Models.Customer.Request;
+﻿using Ambev.Poc.Dev.Domain.Models.Customer.Request;
 
 namespace Ambev.Poc.Dev.Domain.Entities
 {
@@ -14,7 +13,7 @@ namespace Ambev.Poc.Dev.Domain.Entities
         {
 
         }
-        public CustomerEntity(CustomerModel customerModel)
+        public CustomerEntity(CustomerCreateModel customerModel)
         {
             Name = customerModel.Name;
             LastName = customerModel.LastName;

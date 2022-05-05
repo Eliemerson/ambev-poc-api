@@ -1,9 +1,9 @@
-﻿
-using Ambev.Poc.Dev.Domain.Entities;
+﻿using Ambev.Poc.Dev.Domain.Entities;
 using Ambev.Poc.Dev.Domain.Exceptions;
 using Ambev.Poc.Dev.Domain.Interfaces.Repository;
 using Ambev.Poc.Dev.Domain.Interfaces.Services;
 using Ambev.Poc.Dev.Domain.Models.OrderProduct.Request;
+using Ambev.Poc.Dev.Domain.Models.OrderProduct.Response;
 
 namespace Ambev.Poc.Dev.Domain.Services.Order
 {
@@ -17,6 +17,26 @@ namespace Ambev.Poc.Dev.Domain.Services.Order
             _orderRepository = orderRepository;
             _productRepository = productRepository;
             _customerRepository = customerRepository;
+        }
+
+        public async Task<IEnumerable<OrderProductResponse>> GetAllOrders()
+        {
+
+            var orderListModel = await _orderRepository.GetAllOrders();
+
+            return orderListModel;
+        }
+
+        public async Task<OrderProductResponse> GetOrderById(int orderId)
+        {
+            var orderModel = await _orderRepository.GetOrderById(orderId);
+
+            if (orderModel == null)
+            {
+                return null;
+            }
+
+            return orderModel;
         }
 
         public async Task<int> CreateOrderProduct(OrderProductRequestModel orderRequest)

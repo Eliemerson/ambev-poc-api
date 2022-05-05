@@ -65,14 +65,15 @@ namespace Ambev.Poc.Dev.Data.Repository
             }
         }
 
-        public async Task<bool> CreateProduct(ProductEntity entity)
+        public async Task<int> CreateProduct(ProductEntity entity)
         {
             using var connection = GetSqlConnection();
             connection.Open();
             using var transaction = connection.BeginTransaction();
+            var idInsert = 0;
             try
             {
-                var sql = "INSERT INTO Product(Guid, Name, Sku, Price, Category, IsActive) VALUES(@Guid, @Name, @Sku, @Price, @Category, @IsActive)";
+                var sql = "INSERT INTO Product(Guid, Name, Sku, Price, Category, IsActive) VALUES(@Guid, @Name, @Sku, @Price, @Category, @IsActive);SELECT SCOPE_IDENTITY();";
                 using (var cmd = new SqlCommand(sql, connection, transaction))
                 {
                     cmd.Parameters.AddWithValue("@Guid", entity.Guid);
@@ -81,11 +82,12 @@ namespace Ambev.Poc.Dev.Data.Repository
                     cmd.Parameters.AddWithValue("@Price", entity.Price);
                     cmd.Parameters.AddWithValue("@Category", entity.Category);
                     cmd.Parameters.AddWithValue("@IsActive", true);
-                    await cmd.ExecuteNonQueryAsync();
+
+                    idInsert = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                 }
 
                 transaction.Commit();
-                return true;
+                return idInsert;
             }
             catch (Exception ex)
             {

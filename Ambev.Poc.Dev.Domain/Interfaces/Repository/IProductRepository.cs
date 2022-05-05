@@ -8,7 +8,7 @@ namespace Ambev.Poc.Dev.Domain.Interfaces.Repository
         Task<IEnumerable<ProductResponseModel>> GetAllProducts();
         Task<ProductEntity> GetProducById(int productId);
         Task<IEnumerable<ProductEntity>> GetProductBySku(string sku);
-        Task<bool> CreateProduct(ProductEntity entity);
+        Task<int> CreateProduct(ProductEntity entity);
         Task<ProductEntity> UpdateProduct(ProductEntity productEntity);
         Task<bool> DeleteProduct(int productId);
     }

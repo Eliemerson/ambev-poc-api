@@ -1,6 +1,8 @@
 ﻿using Ambev.Poc.Dev.Domain.Entities;
 using Ambev.Poc.Dev.Domain.Interfaces.Repository;
 using Ambev.Poc.Dev.Domain.Models.AppSettings;
+using Ambev.Poc.Dev.Domain.Models.OrderProduct.Response;
+using Dapper;
 using System.Data.SqlClient;
 
 namespace Ambev.Poc.Dev.Data.Repository
@@ -10,6 +12,59 @@ namespace Ambev.Poc.Dev.Data.Repository
         public OrderRepository(AppSettings appSettings) : base(appSettings)
         {
 
+        }
+
+
+        public async Task<IEnumerable<OrderProductResponse>> GetAllOrders()
+        {
+            using var connection = GetSqlConnection();
+            connection.Open();
+            try
+            {
+                var sql = @"SELECT OP.Id, OP.ProductId, 
+                                 OP.CustomerId, 
+	                             OP.TotalOrder, 
+	                             OP.Amount,
+	                             P.Name AS ProductName, 
+	                             CONCAT(C.Name, ' ', C.LastName) AS CustomerName
+                            FROM OrderProduct OP
+                            INNER JOIN Product P ON P.Id = OP.ProductId
+                            INNER JOIN Customer C ON C.Id = OP.ProductId";
+
+                var orderModelResponse = await connection.QueryAsync<OrderProductResponse>(sql);
+
+                return orderModelResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error get order {ex.Message}");
+            }
+        }
+
+        public async Task<OrderProductResponse> GetOrderById(int orderId)
+        {
+            using var connection = GetSqlConnection();
+            connection.Open();
+            try
+            {
+                var sql = @"SELECT OP.Id, OP.ProductId, 
+                                 OP.CustomerId, 
+	                             OP.TotalOrder, 
+	                             OP.Amount,
+	                             P.Name AS ProductName, 
+	                             CONCAT(C.Name, ' ', C.LastName) AS CustomerName
+                            FROM OrderProduct OP
+                            INNER JOIN Product P ON P.Id = OP.ProductId
+                            INNER JOIN Customer C ON C.Id = OP.ProductId
+                            WHERE OP.Id = @OrderId";
+                var orderModelResponse = await connection.QueryAsync<OrderProductResponse>(sql, new { OrderId = orderId });
+
+                return orderModelResponse.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error get order {ex.Message}");
+            }
         }
 
         public async Task<int> CreateProduct(OrderProductEntity entity)
@@ -29,9 +84,7 @@ namespace Ambev.Poc.Dev.Data.Repository
                     cmd.Parameters.AddWithValue("@TotalOrder", entity.TotalOrder);
                     cmd.Parameters.AddWithValue("@Amount", entity.Amount);
 
-                    //idInsert = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    idInsert = await cmd.ExecuteNonQueryAsync();
+                    idInsert = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                 }
 
                 transaction.Commit();

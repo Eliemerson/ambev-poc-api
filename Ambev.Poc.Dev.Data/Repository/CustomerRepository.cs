@@ -1,7 +1,7 @@
 ﻿using Ambev.Poc.Dev.Domain.Entities;
 using Ambev.Poc.Dev.Domain.Interfaces.Repository;
 using Ambev.Poc.Dev.Domain.Models.AppSettings;
-using Ambev.Poc.Dev.Domain.Models.Customer;
+using Ambev.Poc.Dev.Domain.Models.Customer.Response;
 using Dapper;
 using System.Data.SqlClient;
 
@@ -14,14 +14,14 @@ namespace Ambev.Poc.Dev.Data.Repository
 
         }
 
-        public async Task<IEnumerable<CustomerModel>> GetAllCustomers()
+        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomers()
         {
             using var connection = GetSqlConnection();
             connection.Open();
             try
             {
                 var sql = "Select * From Customer Where IsActive = @IsActive";
-                var customerEntyty = await connection.QueryAsync<CustomerModel>(sql, new { IsActive = true });
+                var customerEntyty = await connection.QueryAsync<CustomerResponseModel>(sql, new { IsActive = true });
 
                 return customerEntyty;
             }
@@ -65,11 +65,12 @@ namespace Ambev.Poc.Dev.Data.Repository
             }
         }
 
-        public async Task<bool> CreateCostomer(CustomerEntity entity)
+        public async Task<int> CreateCostomer(CustomerEntity entity)
         {
             using var connection = GetSqlConnection();
             connection.Open();
             using var transaction = connection.BeginTransaction();
+            var idInsert = 0;
             try
             {
                 var sql = "INSERT INTO Customer(Guid, Name, LastName, Email, IsActive) VALUES(@Guid, @Name, @LastName, @Email, @IsActive)";
@@ -80,11 +81,12 @@ namespace Ambev.Poc.Dev.Data.Repository
                     cmd.Parameters.AddWithValue("@LastName", entity.LastName);
                     cmd.Parameters.AddWithValue("@Email", entity.Email);
                     cmd.Parameters.AddWithValue("@IsActive", true);
-                    await cmd.ExecuteNonQueryAsync();
+
+                    idInsert = Convert.ToInt32(await cmd.ExecuteScalarAsync());
                 }
 
                 transaction.Commit();
-                return true;
+                return idInsert;
             }
             catch (Exception ex)
             {

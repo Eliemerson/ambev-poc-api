@@ -7,7 +7,7 @@ namespace Ambev.Poc.Dev.Domain.Interfaces.Services
     {
         Task<ProductResponseModel> GetProductId(int productId);
         Task<IEnumerable<ProductResponseModel>> GetAllProduct();
-        Task<bool> CreateProduct(ProductRequestModel productModel);
+        Task<int> CreateProduct(ProductRequestModel productModel);
         Task<ProductResponseModel> UpdateProduct(ProductRequestModel productModel);
         Task<bool> DeleteProduct(int productId);
     }

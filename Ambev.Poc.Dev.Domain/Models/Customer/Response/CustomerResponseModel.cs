@@ -1,20 +1,20 @@
 ﻿using Ambev.Poc.Dev.Domain.Entities;
 using System.Text.Json.Serialization;
 
-namespace Ambev.Poc.Dev.Domain.Models.Customer
+namespace Ambev.Poc.Dev.Domain.Models.Customer.Response
 {
-    public class CustomerModel
+    public class CustomerResponseModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
 
-        public CustomerModel()
+        public CustomerResponseModel()
         {
 
         }
-        public CustomerModel(CustomerEntity entity)
+        public CustomerResponseModel(CustomerEntity entity)
         {
             Id = entity.Id;
             Name = entity.Name;

@@ -2,7 +2,7 @@
 using Ambev.Poc.Dev.Domain.Exceptions;
 using Ambev.Poc.Dev.Domain.Interfaces.Repository;
 using Ambev.Poc.Dev.Domain.Interfaces.Services;
-using Ambev.Poc.Dev.Domain.Models.Customer;
+using Ambev.Poc.Dev.Domain.Models.Customer.Response;
 using Ambev.Poc.Dev.Domain.Models.Customer.Request;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,7 +16,7 @@ namespace Ambev.Poc.Dev.Domain.Services.User
             _customerRepository = customerRepository;
         }
 
-        public async Task<CustomerModel> GetCustomerId(int customerId)
+        public async Task<CustomerResponseModel> GetCustomerId(int customerId)
         {
             var customerEntity = await _customerRepository.GetCustomerById(customerId);
 
@@ -25,17 +25,17 @@ namespace Ambev.Poc.Dev.Domain.Services.User
                 return null;
             }
 
-            return new CustomerModel(customerEntity);
+            return new CustomerResponseModel(customerEntity);
         }
 
-        public async Task<IEnumerable<CustomerModel>> GetAllCustomer()
+        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomer()
         {
             var customerEntity = await _customerRepository.GetAllCustomers();
 
             return customerEntity;
         }
 
-        public async Task<bool> CreateCustomer(CustomerModel customer)
+        public async Task<int> CreateCustomer(CustomerCreateModel customer)
         {
             var anyEmail = await _customerRepository.GetCustomerSameEmail(customer.Email);
 
@@ -51,7 +51,7 @@ namespace Ambev.Poc.Dev.Domain.Services.User
             return result;
         }
 
-        public async Task<CustomerModel> UpdateCustomer(CustomerUpdateModel customer)
+        public async Task<CustomerResponseModel> UpdateCustomer(CustomerUpdateModel customer)
         {
             var customerEntity = await _customerRepository.GetCustomerById(customer.Id);
 
@@ -62,7 +62,7 @@ namespace Ambev.Poc.Dev.Domain.Services.User
 
             var result = await _customerRepository.UpdateCustomer(customerEntity.UpdateCustomer(customer));
 
-            return new CustomerModel(result);
+            return new CustomerResponseModel(result);
         }
 
         public async Task<bool> DeleteCustomer(int customerId)
