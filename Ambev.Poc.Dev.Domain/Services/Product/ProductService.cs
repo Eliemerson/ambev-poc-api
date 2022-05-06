@@ -62,6 +62,7 @@ namespace Ambev.Poc.Dev.Domain.Services.Product
             {
                 throw new BadRequestException("Product not found");
             }
+
             var result = await _productRepository.UpdateProduct(productEntity.UpdateProduct(productModel));
 
             return new ProductResponseModel(result);

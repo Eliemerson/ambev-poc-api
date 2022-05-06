@@ -46,7 +46,7 @@ namespace Ambev.Poc.Dev.Domain.Services.User
 
             var customerEntity = new CustomerEntity(customer);
 
-            var result = await _customerRepository.CreateCostomer(customerEntity);
+            var result = await _customerRepository.CreateCustomer(customerEntity);
 
             return result;
         }

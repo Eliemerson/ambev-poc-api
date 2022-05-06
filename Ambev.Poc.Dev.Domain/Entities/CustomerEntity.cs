@@ -26,5 +26,10 @@ namespace Ambev.Poc.Dev.Domain.Entities
             LastName = customerModel.LastName;
             return this;
         }
+
+        public CustomerEntity(int id)
+        {
+           Id = id;
+        }
     }
 }

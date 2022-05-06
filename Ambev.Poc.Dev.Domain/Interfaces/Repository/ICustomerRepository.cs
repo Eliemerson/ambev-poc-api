@@ -8,7 +8,7 @@ namespace Ambev.Poc.Dev.Domain.Interfaces.Repository
         Task<IEnumerable<CustomerEntity>> GetCustomerSameEmail(string email);
         Task<IEnumerable<CustomerResponseModel>> GetAllCustomers();
         Task<CustomerEntity> GetCustomerById(int customerId);
-        Task<int> CreateCostomer(CustomerEntity entity);
+        Task<int> CreateCustomer(CustomerEntity entity);
         Task<CustomerEntity> UpdateCustomer(CustomerEntity customerEntity);
         Task<bool> DeleteCustomer(int customerId);
     }

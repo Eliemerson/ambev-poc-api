@@ -65,7 +65,7 @@ namespace Ambev.Poc.Dev.Data.Repository
             }
         }
 
-        public async Task<int> CreateCostomer(CustomerEntity entity)
+        public async Task<int> CreateCustomer(CustomerEntity entity)
         {
             using var connection = GetSqlConnection();
             connection.Open();

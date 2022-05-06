@@ -31,5 +31,10 @@ namespace Ambev.Poc.Dev.Domain.Entities
             Category = productModel.Category;
             return this;
         }
+
+        public ProductEntity(int id)
+        {
+            Id = id;    
+        }
     }
 }
