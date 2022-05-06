@@ -4,6 +4,7 @@ namespace Ambev.Poc.Dev.Domain.Models.Product.Request
 {
     public class ProductRequestModel
     {
+        [Required(ErrorMessage = "Compo Obrigatorio.")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Compo Obrigatorio.")]

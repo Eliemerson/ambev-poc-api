@@ -20,7 +20,7 @@ namespace Ambev.Poc.Dev.Data.Repository
             connection.Open();
             try
             {
-                var sql = "Select * From Product Where IsActive = @IsActive";
+                var sql = "Select * From Product Where IsActive = @IsActive Order By Id Desc";
                 var productEntity = await connection.QueryAsync<ProductResponseModel>(sql, new { IsActive = true });
 
                 return productEntity;

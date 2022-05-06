@@ -15,7 +15,7 @@ namespace Ambev.Poc.Dev.Domain.Entities
 
         }
 
-        public ProductEntity(ProductRequestModel productModel)
+        public ProductEntity(ProductCreateModel productModel)
         {
             Name = productModel.Name;
             Sku = productModel.Sku;

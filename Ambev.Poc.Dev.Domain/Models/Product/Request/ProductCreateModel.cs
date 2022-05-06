@@ -1,18 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ambev.Poc.Dev.Domain.Models.Customer.Request
+namespace Ambev.Poc.Dev.Domain.Models.Product.Request
 {
-    public class CustomerCreateModel
+    public class ProductCreateModel
     {
 
         [Required(ErrorMessage = "Compo Obrigatorio.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Compo Obrigatorio.")]
-        public string LastName { get; set; }
+        public string Sku { get; set; }
 
         [Required(ErrorMessage = "Compo Obrigatorio.")]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public decimal Price { get; set; }
+
+        [Required(ErrorMessage = "Compo Obrigatorio.")]
+        public string Category { get; set; }
     }
 }

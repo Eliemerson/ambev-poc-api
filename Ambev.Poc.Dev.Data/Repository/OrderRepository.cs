@@ -29,7 +29,8 @@ namespace Ambev.Poc.Dev.Data.Repository
 	                             CONCAT(C.Name, ' ', C.LastName) AS CustomerName
                             FROM OrderProduct OP
                             INNER JOIN Product P ON P.Id = OP.ProductId
-                            INNER JOIN Customer C ON C.Id = OP.ProductId";
+                            INNER JOIN Customer C ON C.Id = OP.CustomerId
+                            ORDER BY OP.Id DESC";
 
                 var orderModelResponse = await connection.QueryAsync<OrderProductResponse>(sql);
 

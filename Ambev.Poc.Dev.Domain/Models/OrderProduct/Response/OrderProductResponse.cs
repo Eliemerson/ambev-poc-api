@@ -4,6 +4,7 @@ namespace Ambev.Poc.Dev.Domain.Models.OrderProduct.Response
 {
     public class OrderProductResponse
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int CustomerId { get; set; }
